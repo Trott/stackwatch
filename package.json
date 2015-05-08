@@ -1,0 +1,22 @@
+{
+  "name": "stackwatch",
+  "version": "1.0.0",
+  "description": "Watch StackExchange sites and open a browser window when something happens",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Trott/stackwatch.git"
+  },
+  "keywords": [
+    "stackexchange"
+  ],
+  "author": "Rich Trott <rtrott@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Trott/stackwatch/issues"
+  },
+  "homepage": "https://github.com/Trott/stackwatch#readme"
+}
