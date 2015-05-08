@@ -10,7 +10,7 @@ var it = lab.test;
 var stackwatch = require('../index.js');
 
 describe('exports', function () {
-    it('should expose a chck function', function (done) {
+    it('should expose a check function', function (done) {
         expect(typeof stackwatch.check).to.equal('function');
         done();
     });
