@@ -53,19 +53,73 @@ describe('argv', function () {
 	});
 		
 	describe('stackwatch', function () {
-		var noop = function () {};
-		var startCalled = false;
+		var checkForError = function (txt) {
+			expect(txt).to.equal('Error: data is not valid!');
+		};
 
 		it('should call check()', function (done) {
+			var noop = function () {};
+			var checkCalled = false;
+
 			var stackwatchTestDouble = {
 				check: function () {
-					startCalled = true;
+					checkCalled = true;
 					done();
 				}
 			};
-			expect(startCalled).to.be.false();
+			expect(checkCalled).to.be.false();
 			argv({_: []}, noop, stackwatchTestDouble);
-			expect(startCalled).to.be.true();
+			expect(checkCalled).to.be.true();
+		});
+
+		it('should print error message if no data', function (done) {
+			var stackwatchTestDouble = {
+				check: function (options, callback) {
+					return callback();
+				}
+			};
+			argv({_: []}, checkForError, stackwatchTestDouble);
+			done();
+		});
+
+		it('should print error message if empty data object', function (done) {
+			var stackwatchTestDouble = {
+				check: function (options, callback) {
+					return callback(null, {});
+				}
+			};
+			argv({_: []}, checkForError, stackwatchTestDouble);
+			done();
+		});
+
+		it('should print error message if data.items is empty', function (done) {
+			var stackwatchTestDouble = {
+				check: function (options, callback) {
+					return callback(null, {items: []});
+				}
+			};
+			argv({_: []}, checkForError, stackwatchTestDouble);
+			done();
+		});
+
+		it('should print error message if no question_id', function (done) {
+			var stackwatchTestDouble = {
+				check: function (options, callback) {
+					return callback(null, {items: [{link: 'https://example.com/'}]});
+				}
+			};
+			argv({_: []}, checkForError, stackwatchTestDouble);
+			done();
+		});
+
+		it('should print error message if no link', function (done) {
+			var stackwatchTestDouble = {
+				check: function (options, callback) {
+					return callback(null, {items: [{question_id: 'fhqwhgads'}]});
+				}
+			};
+			argv({_: []}, checkForError, stackwatchTestDouble);
+			done();
 		});
 	});
 });
