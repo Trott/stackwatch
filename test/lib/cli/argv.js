@@ -72,6 +72,22 @@ describe('argv', function () {
 			expect(checkCalled).to.be.true();
 		});
 
+		it('should print error message if error is received', function (done) {
+			var stackwatchTestDouble = {
+				check: function(options, callback) {
+					return callback(new Error('This is a sample error message.'));
+				}
+			};
+
+
+			argv(
+				{_: []}, 
+				function (txt) { expect(txt).to.equal('Error: This is a sample error message.'); }, 
+				stackwatchTestDouble
+			);
+			done();
+		});
+
 		it('should print error message if no data', function (done) {
 			var stackwatchTestDouble = {
 				check: function (options, callback) {
