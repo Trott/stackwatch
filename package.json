@@ -1,6 +1,6 @@
 {
   "name": "stackwatch",
-  "version": "1.0.0",
+  "version": "0.1.1",
   "description": "Watch StackExchange sites and open a browser window when something happens",
   "bin": {
     "stackwatch": "bin/stackwatch"
