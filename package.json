@@ -6,7 +6,7 @@
     "stackwatch": "bin/stackwatch"
   },
   "scripts": {
-    "test": "lab -t 100 test"
+    "test": "lab -t 69 test"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
   "homepage": "https://github.com/Trott/stackwatch#readme",
   "dependencies": {
     "minimist": "^1.1.1",
+    "opn": "^1.0.2",
     "stackexchange": "^0.2.0"
   },
   "devDependencies": {

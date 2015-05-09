@@ -56,9 +56,9 @@ describe('argv', function () {
 		var noop = function () {};
 		var startCalled = false;
 
-		it('should start', function (done) {
+		it('should call check()', function (done) {
 			var stackwatchTestDouble = {
-				start: function () {
+				check: function () {
 					startCalled = true;
 					done();
 				}
