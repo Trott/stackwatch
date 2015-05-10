@@ -6,7 +6,7 @@
     "stackwatch": "bin/stackwatch"
   },
   "scripts": {
-    "test": "lab -t 82 test"
+    "test": "lab -t 83 test"
   },
   "repository": {
     "type": "git",
