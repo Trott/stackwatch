@@ -12,16 +12,14 @@ npm install -g stackwatch
 Usage
 -----
 
-From the command-line:
-
-```bash
-stackwatch
 ```
+stackwatch [options]
 
-By default, after loading existing questions, it will check once a minute for new questions tagged `node.js` and open a browser window when it finds one.
-
-No command line options yet. Submit an issue or a pull request!
-
+Options:
+  --wait         Seconds to wait between checks [default: 60]
+  --version, -v  Show version
+  --help, -h     Show this message
+```
 
 License
 -------
