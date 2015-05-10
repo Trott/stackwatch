@@ -56,7 +56,7 @@ describe('argv', function () {
 		var noop = function () {};
 
 		var checkForError = function (txt) {
-			expect(txt).to.equal('Error: data is not valid!');
+			expect(txt).to.equal('Error: data is not valid');
 		};
 
 		it('should call check()', function (done) {
@@ -73,17 +73,31 @@ describe('argv', function () {
 			expect(checkCalled).to.be.true();
 		});
 
-		it('should print error message if error is received', function (done) {
+		it('should print error message if error is received by callback', function (done) {
 			var stackwatchTestDouble = {
 				check: function(options, callback) {
 					return callback(new Error('This is a sample error message.'));
 				}
 			};
 
-
 			argv(
 				{_: []}, 
 				function (txt) { expect(txt).to.equal('Error: This is a sample error message.'); }, 
+				stackwatchTestDouble
+			);
+			done();
+		});
+
+		it('should print error message if error_message included in otherwise invalid data object', function (done) {
+			var stackwatchTestDouble = {
+				check: function(options, callback) {
+					return callback(null, {error_message: 'This is another sample error message.'});
+				}
+			};
+
+			argv(
+				{_: []}, 
+				function (txt) { expect(txt).to.equal('Error: This is another sample error message.'); }, 
 				stackwatchTestDouble
 			);
 			done();
