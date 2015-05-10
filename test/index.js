@@ -7,7 +7,17 @@ var expect = Code.expect;
 var describe = lab.experiment;
 var it = lab.test;
 
-var stackwatch = require('../index.js');
+var rewire = require('rewire');
+var stackwatch = rewire('../index.js');
+stackwatch.__set__('context', {
+    questions: {
+        questions: function (filter, callback) {
+            return process.nextTick(function () {
+                callback(null, {items: [{question_id: 'fhqwhgads', link: 'https://www.example.com/'}]});
+            });
+        }
+    }
+});
 
 describe('exports', function () {
     it('should expose check()', function (done) {

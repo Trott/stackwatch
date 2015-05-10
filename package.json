@@ -29,6 +29,7 @@
   "devDependencies": {
     "code": "^1.4.0",
     "jshint": "^2.7.0",
-    "lab": "^5.8.0"
+    "lab": "^5.8.0",
+    "rewire": "^2.3.3"
   }
 }
