@@ -1,3 +1,7 @@
+# 1.1.2
+
+- Update usage documentation
+
 # 1.1.1
 
 - Fix bug where `--wait` option was being ignored
