@@ -53,12 +53,13 @@ describe('argv', function () {
 	});
 		
 	describe('stackwatch', function () {
+		var noop = function () {};
+
 		var checkForError = function (txt) {
 			expect(txt).to.equal('Error: data is not valid!');
 		};
 
 		it('should call check()', function (done) {
-			var noop = function () {};
 			var checkCalled = false;
 
 			var stackwatchTestDouble = {
@@ -136,6 +137,27 @@ describe('argv', function () {
 			};
 			argv({_: []}, checkForError, stackwatchTestDouble);
 			done();
+		});
+
+		it('should call start() right after check() if wait is 0', function (done) {
+			var checkCalled = false;
+			var startCalled = false;
+			var stackwatchTestDouble = {
+				check: function (options, callback) {
+					checkCalled = true;
+					return callback(null, {items: [{question_id: 'fhqwhgads', link: 'https://www.example.com/'}]});
+				},
+				start: function() {
+					startCalled = true;
+				}
+			};
+
+			argv({_: [], wait: '0'}, noop, stackwatchTestDouble);
+			setTimeout(function () {
+				expect(checkCalled).to.be.true();
+				expect(startCalled).to.be.true();
+				done();
+			}, 0);
 		});
 	});
 });
