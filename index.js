@@ -13,8 +13,12 @@ stackwatch.check = function(options, callback) {
 };
 
 stackwatch.start = function(options, callback) {
+  var wait = parseInt(options.wait, 10);
+  if (isNaN(wait)) {
+  	wait = 60;
+  }
   stackwatch.check(options, callback);
-  return setInterval(stackwatch.check, 1000 * 60, options, callback);
+  return setInterval(stackwatch.check, 1000 * wait, options, callback);
 };
 
 stackwatch.stop = clearInterval;

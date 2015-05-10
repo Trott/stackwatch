@@ -52,6 +52,17 @@ describe('start()', function () {
             done();
         });
     });
+
+    it('should run checks in succession if wait is 0', function (done) {
+        var checkCount = 0;
+        var intervalID = stackwatch.start({wait: 0}, function () {
+            checkCount = checkCount + 1;
+            if (checkCount === 2) {
+                clearInterval(intervalID);
+                done();
+            }
+        });
+    });
 });
 
 describe('stop()', function () {
