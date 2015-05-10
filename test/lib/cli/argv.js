@@ -73,9 +73,9 @@ describe('argv', function () {
 			expect(checkCalled).to.be.true();
 		});
 
-		it('should print error message if error is received by callback', function (done) {
+		it('should print error message if error is received by callback from check()', function (done) {
 			var stackwatchTestDouble = {
-				check: function(options, callback) {
+				check: function (options, callback) {
 					return callback(new Error('This is a sample error message.'));
 				}
 			};
@@ -86,6 +86,27 @@ describe('argv', function () {
 				stackwatchTestDouble
 			);
 			done();
+		});
+
+		it('should print error message if error is received by callback from start()', function (done) {
+			var stackwatchTestDouble = {
+				check: function (options, callback) {
+					return callback(null, {items:[{question_id: 'fhqwhgads', link: 'http://example.com/'}]});
+				},
+				start: function (options, callback) {
+					return callback(new Error('This is a sample error message.'));
+				},
+				stop: clearInterval
+			};
+
+			var stdoutTestDouble = function (txt) {
+				if (txt !== 'stackwatch is running...') {
+					expect(txt).to.equal('Error: This is a sample error message.');
+					done();
+				}
+			};
+
+			argv({_: [], wait: '0'}, stdoutTestDouble, stackwatchTestDouble);
 		});
 
 		it('should print error message if error_message included in otherwise invalid data object', function (done) {
