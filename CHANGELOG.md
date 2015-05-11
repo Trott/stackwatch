@@ -1,3 +1,7 @@
+# 1.1.3 (upcoming)
+
+- Improved error messages
+
 # 1.1.2
 
 - Update usage documentation
