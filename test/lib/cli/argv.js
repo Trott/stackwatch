@@ -109,7 +109,7 @@ describe('argv', function () {
 			argv({_: [], wait: '0'}, stdoutTestDouble, stackwatchTestDouble);
 		});
 
-		it('should print error message if error_message included in otherwise invalid data object', function (done) {
+		it('should print error message if error_message included in otherwise invalid data object from check()', function (done) {
 			var stackwatchTestDouble = {
 				check: function(options, callback) {
 					return callback(null, {error_message: 'This is another sample error message.'});
@@ -122,6 +122,27 @@ describe('argv', function () {
 				stackwatchTestDouble
 			);
 			done();
+		});
+
+		it('should print error message if error_message included in otherwise invalid data object from start()', function (done) {
+			var stackwatchTestDouble = {
+				check: function (options, callback) {
+					return callback(null, {items:[{question_id: 'fhqwhgads', link: 'http://example.com/'}]});
+				},
+				start: function (options, callback) {
+					return callback(null, {error_message: 'This is yet another sample error message.'});
+				},
+				stop: clearInterval
+			};
+
+			var stdoutTestDouble = function (txt) {
+				if (txt !== 'stackwatch is running...') {
+					expect(txt).to.equal('Error: This is yet another sample error message.');
+					done();
+				}
+			};
+
+			argv({_: [], wait: '0'}, stdoutTestDouble, stackwatchTestDouble);
 		});
 
 		it('should print error message if no data', function (done) {
