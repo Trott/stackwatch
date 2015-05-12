@@ -145,7 +145,7 @@ describe('argv', function () {
 			argv({_: [], wait: '0'}, stdoutTestDouble, stackwatchTestDouble);
 		});
 
-		it('should print error message if no data', function (done) {
+		it('should print error message if no data from check()', function (done) {
 			var stackwatchTestDouble = {
 				check: function (options, callback) {
 					return callback();
@@ -155,7 +155,28 @@ describe('argv', function () {
 			done();
 		});
 
-		it('should print error message if empty data object', function (done) {
+		it('should print error message if no data from start()', function (done) {
+			var stackwatchTestDouble = {
+				check: function (options, callback) {
+					return callback(null, {items:[{question_id: 'fhqwhgads', link: 'http://example.com/'}]});
+				},
+				start: function (options, callback) {
+					return callback();
+				},
+				stop: clearInterval
+			};
+
+			var stdoutTestDouble = function (txt) {
+				if (txt !== 'stackwatch is running...') {
+					checkForError(txt);
+					done();
+				}
+			};
+
+			argv({_: [], wait: '0'}, stdoutTestDouble, stackwatchTestDouble);
+		});
+
+		it('should print error message if empty data object from check()', function (done) {
 			var stackwatchTestDouble = {
 				check: function (options, callback) {
 					return callback(null, {});
@@ -163,6 +184,27 @@ describe('argv', function () {
 			};
 			argv({_: []}, checkForError, stackwatchTestDouble);
 			done();
+		});
+
+		it('should print error message if empty data object from start()', function (done) {
+			var stackwatchTestDouble = {
+				check: function (options, callback) {
+					return callback(null, {items:[{question_id: 'fhqwhgads', link: 'http://example.com/'}]});
+				},
+				start: function (options, callback) {
+					return callback(null, {});
+				},
+				stop: clearInterval
+			};
+
+			var stdoutTestDouble = function (txt) {
+				if (txt !== 'stackwatch is running...') {
+					checkForError(txt);
+					done();
+				}
+			};
+
+			argv({_: [], wait: '0'}, stdoutTestDouble, stackwatchTestDouble);
 		});
 
 		it('should print error message if data.items is empty', function (done) {
