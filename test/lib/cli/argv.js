@@ -6,8 +6,10 @@ var lab = exports.lab = Lab.script();
 var expect = Code.expect;
 var describe = lab.experiment;
 var it = lab.test;
+var beforeEach = lab.beforeEach;
 
-var argv = require('../../../lib/cli/argv');
+var rewire = require('rewire');
+var argv = rewire('../../../lib/cli/argv');
 
 describe('argv', function () {
 	describe('help', function () {
@@ -54,6 +56,15 @@ describe('argv', function () {
 		
 	describe('stackwatch', function () {
 		var noop = function () {};
+		var reset;
+
+		beforeEach(function (done) {
+			if (reset) {
+				reset();
+				reset = null;
+			}
+			done();
+		});
 
 		var checkForError = function (txt) {
 			expect(txt).to.equal('Error: data is not valid');
@@ -256,6 +267,26 @@ describe('argv', function () {
 				expect(startCalled).to.be.true();
 				done();
 			}, 0);
+		});
+
+		it('should call opn() if new question_id is present', function (done) {
+			reset = argv.__set__('opn', function (url) {
+				expect(url).to.equal('https://www.example.com/grumbles');
+				done();
+			});
+
+			var stackwatchTestDouble = {
+				check: function (options, callback) {
+					return callback(null, {items: [{question_id: 'fhqwhgads', link: 'https://www.example.com/fhqwhgads'}]});
+				},
+				start: function(options, callback) {
+					return callback(null, {items: [
+						{question_id: 'grumbles', link: 'https://www.example.com/grumbles'}, 
+						{question_id: 'fhqwhgads', link: 'https://www.example.com/fhqwhgads'}
+					]});
+				}
+			};
+			argv({_: [], wait: '0'}, noop, stackwatchTestDouble);
 		});
 	});
 });
