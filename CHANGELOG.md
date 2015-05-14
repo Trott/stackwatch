@@ -1,5 +1,6 @@
-# 1.1.3 (upcoming)
+# 1.2.0 (upcoming)
 
+- Added '--tag' option
 - Improved error messages
 
 # 1.1.2

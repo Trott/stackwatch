@@ -307,5 +307,16 @@ describe('argv', function () {
 			};
 			argv({_: [], wait: '0'}, noop, stackwatchTestDouble);
 		});
+
+		it('should search for tag provided by --tag command line option', function (done) {
+			var stackwatchTestDouble = {
+				check: function (options) {
+					expect(options.tag).to.equal('html5');
+					done();
+				}
+			};
+
+			argv({_: [], tag: 'html5'}, noop, stackwatchTestDouble);
+		});
 	});
 });

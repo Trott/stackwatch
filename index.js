@@ -9,6 +9,11 @@ stackwatch.check = function(options, callback) {
     sort: 'creation',
     order: 'desc'
   };
+
+  if (options.tag) {
+    filter.tagged = options.tag;
+  }
+
   context.questions.questions(filter, callback);
 };
 

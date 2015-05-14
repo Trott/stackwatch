@@ -1,12 +1,12 @@
 {
   "name": "stackwatch",
-  "version": "1.1.3-0",
+  "version": "1.2.0-0",
   "description": "Watch StackExchange sites and open a browser window when something happens",
   "bin": {
     "stackwatch": "bin/stackwatch"
   },
   "scripts": {
-    "test": "lab -t 98 test"
+    "test": "lab -t 100 test"
   },
   "repository": {
     "type": "git",

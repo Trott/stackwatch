@@ -6,18 +6,14 @@ var lab = exports.lab = Lab.script();
 var expect = Code.expect;
 var describe = lab.experiment;
 var it = lab.test;
+var afterEach = lab.afterEach;
 
 var rewire = require('rewire');
 var stackwatch = rewire('../index.js');
-stackwatch.__set__('context', {
-    questions: {
-        questions: function (filter, callback) {
-            return process.nextTick(function () {
-                callback(null, {items: [{question_id: 'fhqwhgads', link: 'https://www.example.com/'}]});
-            });
-        }
-    }
-});
+
+var reset;
+
+var noop = function () {};
 
 describe('exports', function () {
     it('should expose check()', function (done) {
@@ -37,7 +33,25 @@ describe('exports', function () {
 });
 
 describe('check()', function () {
+    afterEach(function (done) {
+        if (reset) {
+            reset();
+            reset = null;
+        }
+        done();
+    });
+
     it('should run a callback', function (done) {
+        reset = stackwatch.__set__('context', {
+            questions: {
+                questions: function (filter, callback) {
+                    return process.nextTick(function () {
+                        callback(null, {items: [{question_id: 'fhqwhgads', link: 'https://www.example.com/'}]});
+                    });
+                }
+            }
+        });
+
         var verify = function (err, data) {
             expect(err).to.be.null();
             expect(data).to.be.an.object();
@@ -45,25 +59,54 @@ describe('check()', function () {
         };
         stackwatch.check({}, verify);
     });
+
+    it('should filter on provided tag in options', function (done) {
+        reset = stackwatch.__set__('context', {
+            questions: {
+                questions: function (filter) {
+                    expect(filter.tagged).to.equal('html5');
+                    done();
+                }
+            }
+        });
+
+        stackwatch.check({tag: 'html5'}, noop);
+    });
 });
 
 describe('start()', function () {
+    afterEach(function (done) {
+        if (reset) {
+            reset();
+            reset = null;
+        }
+        done();
+    });
+
     it('should return an object', function (done) {
+        reset = stackwatch.__set__('context', {
+            questions: {
+                questions: noop
+            }
+        });
+
         var timer = stackwatch.start({}, function () {});
         expect(timer).to.be.an.object();
         stackwatch.stop(timer);
         done();
     });
 
-    it('should pass arguments to check()', function (done) {
-        stackwatch.start({}, function (err, data) {
-            expect(err).to.be.null();
-            expect(data).to.be.an.object();
-            done();
-        });
-    });
-
     it('should run checks in succession if wait is 0', function (done) {
+        reset = stackwatch.__set__('context', {
+            questions: {
+                questions: function (filter, callback) {
+                    return process.nextTick(function () {
+                        callback(null, {items: [{question_id: 'fhqwhgads', link: 'https://www.example.com/'}]});
+                    });
+                }
+            }
+        });
+
         var checkCount = 0;
         var intervalID = stackwatch.start({wait: 0}, function () {
             checkCount = checkCount + 1;

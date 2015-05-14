@@ -18,6 +18,7 @@ Usage
 stackwatch [options]
 
 Options:
+  --tag          Tag to search on [default: node.js]
   --wait         Seconds to wait between checks [default: 60]
   --version, -v  Show version
   --help, -h     Show this message
