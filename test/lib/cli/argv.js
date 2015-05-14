@@ -288,5 +288,24 @@ describe('argv', function () {
 			};
 			argv({_: [], wait: '0'}, noop, stackwatchTestDouble);
 		});
+
+		it('should call opn() on new question_id even if previous question_id is no longer present', function (done) {
+			reset = argv.__set__('opn', function (url) {
+				expect(url).to.equal('https://www.example.com/grumbles');
+				done();
+			});
+
+			var stackwatchTestDouble = {
+				check: function (options, callback) {
+					return callback(null, {items: [{question_id: 'fhqwhgads', link: 'https://www.example.com/fhqwhgads'}]});
+				},
+				start: function(options, callback) {
+					return callback(null, {items: [
+						{question_id: 'grumbles', link: 'https://www.example.com/grumbles'}
+					]});
+				}
+			};
+			argv({_: [], wait: '0'}, noop, stackwatchTestDouble);
+		});
 	});
 });
