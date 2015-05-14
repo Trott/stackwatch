@@ -1,4 +1,4 @@
-# 1.2.0 (upcoming)
+# 1.2.0
 
 - Added '--tag' option
 - Improved error messages
