@@ -117,7 +117,7 @@ describe('argv', function () {
 				}
 			};
 
-			argv({_: [], wait: '0'}, stdoutTestDouble, stackwatchTestDouble);
+			argv({_: []}, stdoutTestDouble, stackwatchTestDouble);
 		});
 
 		it('should print error message if error_message included in otherwise invalid data object from check()', function (done) {
@@ -153,7 +153,7 @@ describe('argv', function () {
 				}
 			};
 
-			argv({_: [], wait: '0'}, stdoutTestDouble, stackwatchTestDouble);
+			argv({_: []}, stdoutTestDouble, stackwatchTestDouble);
 		});
 
 		it('should print error message if no data from check()', function (done) {
@@ -184,7 +184,7 @@ describe('argv', function () {
 				}
 			};
 
-			argv({_: [], wait: '0'}, stdoutTestDouble, stackwatchTestDouble);
+			argv({_: []}, stdoutTestDouble, stackwatchTestDouble);
 		});
 
 		it('should print error message if empty data object from check()', function (done) {
@@ -215,7 +215,7 @@ describe('argv', function () {
 				}
 			};
 
-			argv({_: [], wait: '0'}, stdoutTestDouble, stackwatchTestDouble);
+			argv({_: []}, stdoutTestDouble, stackwatchTestDouble);
 		});
 
 		it('should print error message if data.items is empty', function (done) {
@@ -248,27 +248,6 @@ describe('argv', function () {
 			done();
 		});
 
-		it('should call start() right after check() if wait is 0', function (done) {
-			var checkCalled = false;
-			var startCalled = false;
-			var stackwatchTestDouble = {
-				check: function (options, callback) {
-					checkCalled = true;
-					return callback(null, {items: [{question_id: 'fhqwhgads', link: 'https://www.example.com/'}]});
-				},
-				start: function() {
-					startCalled = true;
-				}
-			};
-
-			argv({_: [], wait: '0'}, noop, stackwatchTestDouble);
-			setTimeout(function () {
-				expect(checkCalled).to.be.true();
-				expect(startCalled).to.be.true();
-				done();
-			}, 0);
-		});
-
 		it('should call opn() if new question_id is present', function (done) {
 			reset = argv.__set__('opn', function (url) {
 				expect(url).to.equal('https://www.example.com/grumbles');
@@ -286,7 +265,7 @@ describe('argv', function () {
 					]});
 				}
 			};
-			argv({_: [], wait: '0'}, noop, stackwatchTestDouble);
+			argv({_: []}, noop, stackwatchTestDouble);
 		});
 
 		it('should call opn() on new question_id even if previous question_id is no longer present', function (done) {
@@ -305,7 +284,7 @@ describe('argv', function () {
 					]});
 				}
 			};
-			argv({_: [], wait: '0'}, noop, stackwatchTestDouble);
+			argv({_: []}, noop, stackwatchTestDouble);
 		});
 
 		it('should search for tag provided by --tag command line option', function (done) {
@@ -317,6 +296,17 @@ describe('argv', function () {
 			};
 
 			argv({_: [], tag: 'html5'}, noop, stackwatchTestDouble);
+		});
+
+		it('should pass wait option to stackwatch.check()', function (done) {
+			var stackwatchTestDouble = {
+				check: function (options) {
+					expect(options.wait).to.equal('120');
+					done();
+				}
+			};
+
+			argv({_: [], wait: '120'}, noop, stackwatchTestDouble);
 		});
 	});
 });

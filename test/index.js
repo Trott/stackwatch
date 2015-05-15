@@ -115,6 +115,46 @@ describe('start()', function () {
 
         stackwatch.start({wait: 0}, noop);
     });
+
+    it('should set wait option to 60 seconds if no wait option provided', function (done) {
+        reset = stackwatch.__set__({
+            context: {
+                questions: {
+                    questions: function (filter, callback) {
+                        return process.nextTick(function () {
+                            callback(null, {items: [{question_id: 'fhqwhgads', link: 'https://www.example.com/'}]});
+                        });
+                    }
+                }
+            },
+            setInterval: function (func, delay) {
+                expect(delay).to.equal(60000);
+                done();
+            }
+        });
+
+        stackwatch.start({}, noop);        
+    });
+
+    it('should correctly parse a string wait option', function (done) {
+        reset = stackwatch.__set__({
+            context: {
+                questions: {
+                    questions: function (filter, callback) {
+                        return process.nextTick(function () {
+                            callback(null, {items: [{question_id: 'fhqwhgads', link: 'https://www.example.com/'}]});
+                        });
+                    }
+                }
+            },
+            setInterval: function (func, delay) {
+                expect(delay).to.equal(120000);
+                done();
+            }
+        });
+
+        stackwatch.start({wait:'120'}, noop); 
+    });
 });
 
 describe('stop()', function () {

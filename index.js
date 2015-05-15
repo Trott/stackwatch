@@ -3,7 +3,7 @@ var context = new stackexchange();
 
 var stackwatch = {};
 
-stackwatch.check = function(options, callback) {  
+stackwatch.check = function(options, callback) {
   var filter = {
     tagged: 'node.js',
     sort: 'creation',
@@ -22,7 +22,6 @@ stackwatch.start = function(options, callback) {
   if (isNaN(wait) || wait < 60) {
   	wait = 60;
   }
-  stackwatch.check(options, callback);
   return setInterval(stackwatch.check, 1000 * wait, options, callback);
 };
 
