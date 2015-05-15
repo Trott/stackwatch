@@ -1,3 +1,7 @@
+# 2.0.0
+
+- Minimum `--wait` option value is 60 seconds to avoid StackExchange throttling and to just generally avoid being a jerk.
+
 # 1.2.0
 
 - Added '--tag' option
