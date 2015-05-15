@@ -1,8 +1,6 @@
 # stackwatch
 
-Watch StackExchange sites and open a browser window when something of interest has happened.
-
-Currently, it looks for new questions tagged `node.js`. Command-line option for specifying a different tag should be easy enough to implement. I just, uh, haven't yet. Feel free to open a pull request...
+Watch StackExchange sites and open a browser window when a new question of interest has been posted.
 
 Installation
 ------------
