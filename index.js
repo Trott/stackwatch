@@ -19,7 +19,7 @@ stackwatch.check = function(options, callback) {
 
 stackwatch.start = function(options, callback) {
   var wait = parseInt(options.wait, 10);
-  if (isNaN(wait)) {
+  if (isNaN(wait) || wait < 60) {
   	wait = 60;
   }
   stackwatch.check(options, callback);

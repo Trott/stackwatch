@@ -96,25 +96,24 @@ describe('start()', function () {
         done();
     });
 
-    it('should run checks in succession if wait is 0', function (done) {
-        reset = stackwatch.__set__('context', {
-            questions: {
-                questions: function (filter, callback) {
-                    return process.nextTick(function () {
-                        callback(null, {items: [{question_id: 'fhqwhgads', link: 'https://www.example.com/'}]});
-                    });
+    it('should not permit wait to be set under 60', function (done) {
+        reset = stackwatch.__set__({
+            context: {
+                questions: {
+                    questions: function (filter, callback) {
+                        return process.nextTick(function () {
+                            callback(null, {items: [{question_id: 'fhqwhgads', link: 'https://www.example.com/'}]});
+                        });
+                    }
                 }
-            }
-        });
-
-        var checkCount = 0;
-        var intervalID = stackwatch.start({wait: 0}, function () {
-            checkCount = checkCount + 1;
-            if (checkCount === 2) {
-                clearInterval(intervalID);
+            },
+            setInterval: function (func, delay) {
+                expect(delay).to.equal(60000);
                 done();
             }
         });
+
+        stackwatch.start({wait: 0}, noop);
     });
 });
 
