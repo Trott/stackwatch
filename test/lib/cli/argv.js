@@ -287,6 +287,32 @@ describe('argv', function () {
 			argv({_: []}, noop, stackwatchTestDouble);
 		});
 
+		it('should not call opn() on older creation_date if previous creation_date is no longer present', function (done) {
+			var callCount = 0;
+			reset = argv.__set__('opn', function () {
+				callCount = callCount + 1;
+			});
+
+
+			var stackwatchTestDouble = {
+				check: function (options, callback) {
+					return callback(null, {items: [
+						{creation_date: 1431712403, link: 'https://www.example.com/fhqwhgads'},
+						{creation_date: 1431712402, link: 'https://www.example.com/grumbles'}
+					]});
+				},
+				start: function(options, callback) {
+					return callback(null, {items: [
+						{creation_date: 1431712402, link: 'https://www.example.com/grumbles'}
+					]});
+				}
+			};
+
+			argv({_: []}, noop, stackwatchTestDouble);
+			expect(callCount).to.equal(0);
+			done();
+		});
+
 		it('should search for tag provided by --tag command line option', function (done) {
 			var stackwatchTestDouble = {
 				check: function (options) {
