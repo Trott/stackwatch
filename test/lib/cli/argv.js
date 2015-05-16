@@ -102,7 +102,7 @@ describe('argv', function () {
 		it('should print error message if error is received by callback from start()', function (done) {
 			var stackwatchTestDouble = {
 				check: function (options, callback) {
-					return callback(null, {items:[{question_id: 'fhqwhgads', link: 'http://example.com/'}]});
+					return callback(null, {items:[{creation_date: 1431712403, link: 'http://example.com/'}]});
 				},
 				start: function (options, callback) {
 					return callback(new Error('This is a sample error message.'));
@@ -138,7 +138,7 @@ describe('argv', function () {
 		it('should print error message if error_message included in otherwise invalid data object from start()', function (done) {
 			var stackwatchTestDouble = {
 				check: function (options, callback) {
-					return callback(null, {items:[{question_id: 'fhqwhgads', link: 'http://example.com/'}]});
+					return callback(null, {items:[{creation_date: 1431712403, link: 'http://example.com/'}]});
 				},
 				start: function (options, callback) {
 					return callback(null, {error_message: 'This is yet another sample error message.'});
@@ -169,7 +169,7 @@ describe('argv', function () {
 		it('should print error message if no data from start()', function (done) {
 			var stackwatchTestDouble = {
 				check: function (options, callback) {
-					return callback(null, {items:[{question_id: 'fhqwhgads', link: 'http://example.com/'}]});
+					return callback(null, {items:[{creation_date: 1431712403, link: 'http://example.com/'}]});
 				},
 				start: function (options, callback) {
 					return callback();
@@ -200,7 +200,7 @@ describe('argv', function () {
 		it('should print error message if empty data object from start()', function (done) {
 			var stackwatchTestDouble = {
 				check: function (options, callback) {
-					return callback(null, {items:[{question_id: 'fhqwhgads', link: 'http://example.com/'}]});
+					return callback(null, {items:[{creation_date: 1431712403, link: 'http://example.com/'}]});
 				},
 				start: function (options, callback) {
 					return callback(null, {});
@@ -228,7 +228,7 @@ describe('argv', function () {
 			done();
 		});
 
-		it('should print error message if no question_id', function (done) {
+		it('should print error message if no creation_date', function (done) {
 			var stackwatchTestDouble = {
 				check: function (options, callback) {
 					return callback(null, {items: [{link: 'https://example.com/'}]});
@@ -241,14 +241,14 @@ describe('argv', function () {
 		it('should print error message if no link', function (done) {
 			var stackwatchTestDouble = {
 				check: function (options, callback) {
-					return callback(null, {items: [{question_id: 'fhqwhgads'}]});
+					return callback(null, {items: [{creation_date: 1431712403}]});
 				}
 			};
 			argv({_: []}, checkForError, stackwatchTestDouble);
 			done();
 		});
 
-		it('should call opn() if new question_id is present', function (done) {
+		it('should call opn() if newer creation_date is present', function (done) {
 			reset = argv.__set__('opn', function (url) {
 				expect(url).to.equal('https://www.example.com/grumbles');
 				done();
@@ -256,19 +256,19 @@ describe('argv', function () {
 
 			var stackwatchTestDouble = {
 				check: function (options, callback) {
-					return callback(null, {items: [{question_id: 'fhqwhgads', link: 'https://www.example.com/fhqwhgads'}]});
+					return callback(null, {items: [{creation_date: 1431712403, link: 'https://www.example.com/fhqwhgads'}]});
 				},
 				start: function(options, callback) {
 					return callback(null, {items: [
-						{question_id: 'grumbles', link: 'https://www.example.com/grumbles'}, 
-						{question_id: 'fhqwhgads', link: 'https://www.example.com/fhqwhgads'}
+						{creation_date: 1431712404, link: 'https://www.example.com/grumbles'}, 
+						{creation_date: 1431712403, link: 'https://www.example.com/fhqwhgads'}
 					]});
 				}
 			};
 			argv({_: []}, noop, stackwatchTestDouble);
 		});
 
-		it('should call opn() on new question_id even if previous question_id is no longer present', function (done) {
+		it('should call opn() on newer creation_date even if previous creation_date is no longer present', function (done) {
 			reset = argv.__set__('opn', function (url) {
 				expect(url).to.equal('https://www.example.com/grumbles');
 				done();
@@ -276,15 +276,41 @@ describe('argv', function () {
 
 			var stackwatchTestDouble = {
 				check: function (options, callback) {
-					return callback(null, {items: [{question_id: 'fhqwhgads', link: 'https://www.example.com/fhqwhgads'}]});
+					return callback(null, {items: [{creation_date: 1431712403, link: 'https://www.example.com/fhqwhgads'}]});
 				},
 				start: function(options, callback) {
 					return callback(null, {items: [
-						{question_id: 'grumbles', link: 'https://www.example.com/grumbles'}
+						{creation_date: 1431712404, link: 'https://www.example.com/grumbles'}
 					]});
 				}
 			};
 			argv({_: []}, noop, stackwatchTestDouble);
+		});
+
+		it('should not call opn() on older creation_date if previous creation_date is no longer present', function (done) {
+			var callCount = 0;
+			reset = argv.__set__('opn', function () {
+				callCount = callCount + 1;
+			});
+
+
+			var stackwatchTestDouble = {
+				check: function (options, callback) {
+					return callback(null, {items: [
+						{creation_date: 1431712403, link: 'https://www.example.com/fhqwhgads'},
+						{creation_date: 1431712402, link: 'https://www.example.com/grumbles'}
+					]});
+				},
+				start: function(options, callback) {
+					return callback(null, {items: [
+						{creation_date: 1431712402, link: 'https://www.example.com/grumbles'}
+					]});
+				}
+			};
+
+			argv({_: []}, noop, stackwatchTestDouble);
+			expect(callCount).to.equal(0);
+			done();
 		});
 
 		it('should search for tag provided by --tag command line option', function (done) {
