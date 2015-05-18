@@ -1,3 +1,7 @@
+# 2.0.1
+
+- Fix bug where untagged question causes older questions to be opened in browser.
+
 # 2.0.0
 
 - Minimum `--wait` option value is 60 seconds to avoid StackExchange throttling and to just generally avoid being a jerk.
