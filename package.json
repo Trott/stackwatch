@@ -24,12 +24,12 @@
   "dependencies": {
     "minimist": "^1.1.1",
     "opn": "^1.0.2",
-    "stackexchange": "^0.2.0"
+    "stackexchange": "^0.4.0"
   },
   "devDependencies": {
     "code": "^1.4.0",
     "jshint": "^2.7.0",
-    "lab": "^5.8.0",
+    "lab": "^11.0.1",
     "rewire": "^2.3.3"
   }
 }
