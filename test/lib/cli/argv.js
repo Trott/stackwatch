@@ -19,12 +19,10 @@ describe('argv', function () {
 
 		it('should print help message with --help', function (done) {
 			argv({_: [], help: true}, checkForUsage);
-			done();
 		});
 
 		it('should print help message with -h', function (done) {
 			argv({_: [], h: true}, checkForUsage);
-			done();
 		});
 
 		it('should print a usage message with lines of 80 chars or less', function (done) {
@@ -33,7 +31,6 @@ describe('argv', function () {
 				lines.forEach(function (value) {
 					expect(value.length).to.be.below(81);
 				});
-				done();
 			});
 		});
 	});
@@ -45,12 +42,10 @@ describe('argv', function () {
 
 		it('should print the version with --version', function (done) {
 			argv({_: [], version: true}, checkForVersion);
-			done();
 		});
 
 		it('should print the version with -v', function (done) {
 			argv({_: [], v: true}, checkForVersion);
-			done();
 		});
 	});
 		
@@ -63,7 +58,6 @@ describe('argv', function () {
 				reset();
 				reset = null;
 			}
-			done();
 		});
 
 		var checkForError = function (txt) {
@@ -76,7 +70,6 @@ describe('argv', function () {
 			var stackwatchTestDouble = {
 				check: function () {
 					checkCalled = true;
-					done();
 				}
 			};
 			expect(checkCalled).to.be.false();
@@ -96,7 +89,6 @@ describe('argv', function () {
 				function (txt) { expect(txt).to.equal('Error: This is a sample error message.'); }, 
 				stackwatchTestDouble
 			);
-			done();
 		});
 
 		it('should print error message if error is received by callback from start()', function (done) {
@@ -113,7 +105,6 @@ describe('argv', function () {
 			var stdoutTestDouble = function (txt) {
 				if (txt !== 'stackwatch is running...') {
 					expect(txt).to.equal('Error: This is a sample error message.');
-					done();
 				}
 			};
 
@@ -132,7 +123,6 @@ describe('argv', function () {
 				function (txt) { expect(txt).to.equal('Error: This is another sample error message.'); }, 
 				stackwatchTestDouble
 			);
-			done();
 		});
 
 		it('should print error message if error_message included in otherwise invalid data object from start()', function (done) {
@@ -149,7 +139,6 @@ describe('argv', function () {
 			var stdoutTestDouble = function (txt) {
 				if (txt !== 'stackwatch is running...') {
 					expect(txt).to.equal('Error: This is yet another sample error message.');
-					done();
 				}
 			};
 
@@ -163,7 +152,6 @@ describe('argv', function () {
 				}
 			};
 			argv({_: []}, checkForError, stackwatchTestDouble);
-			done();
 		});
 
 		it('should print error message if no data from start()', function (done) {
@@ -180,7 +168,6 @@ describe('argv', function () {
 			var stdoutTestDouble = function (txt) {
 				if (txt !== 'stackwatch is running...') {
 					checkForError(txt);
-					done();
 				}
 			};
 
@@ -194,7 +181,6 @@ describe('argv', function () {
 				}
 			};
 			argv({_: []}, checkForError, stackwatchTestDouble);
-			done();
 		});
 
 		it('should print error message if empty data object from start()', function (done) {
@@ -211,7 +197,6 @@ describe('argv', function () {
 			var stdoutTestDouble = function (txt) {
 				if (txt !== 'stackwatch is running...') {
 					checkForError(txt);
-					done();
 				}
 			};
 
@@ -225,7 +210,6 @@ describe('argv', function () {
 				}
 			};
 			argv({_: []}, checkForError, stackwatchTestDouble);
-			done();
 		});
 
 		it('should print error message if no creation_date', function (done) {
@@ -235,7 +219,6 @@ describe('argv', function () {
 				}
 			};
 			argv({_: []}, checkForError, stackwatchTestDouble);
-			done();
 		});
 
 		it('should print error message if no link', function (done) {
@@ -245,13 +228,11 @@ describe('argv', function () {
 				}
 			};
 			argv({_: []}, checkForError, stackwatchTestDouble);
-			done();
 		});
 
 		it('should call opn() if newer creation_date is present', function (done) {
 			reset = argv.__set__('opn', function (url) {
 				expect(url).to.equal('https://www.example.com/grumbles');
-				done();
 			});
 
 			var stackwatchTestDouble = {
@@ -271,7 +252,6 @@ describe('argv', function () {
 		it('should call opn() on newer creation_date even if previous creation_date is no longer present', function (done) {
 			reset = argv.__set__('opn', function (url) {
 				expect(url).to.equal('https://www.example.com/grumbles');
-				done();
 			});
 
 			var stackwatchTestDouble = {
@@ -310,14 +290,12 @@ describe('argv', function () {
 
 			argv({_: []}, noop, stackwatchTestDouble);
 			expect(callCount).to.equal(0);
-			done();
 		});
 
 		it('should search for tag provided by --tag command line option', function (done) {
 			var stackwatchTestDouble = {
 				check: function (options) {
 					expect(options.tag).to.equal('html5');
-					done();
 				}
 			};
 
@@ -328,7 +306,6 @@ describe('argv', function () {
 			var stackwatchTestDouble = {
 				check: function (options) {
 					expect(options.wait).to.equal('120');
-					done();
 				}
 			};
 

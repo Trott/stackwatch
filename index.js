@@ -1,3 +1,8 @@
+'use strict';
+
+// needed to fix devnull in stackexchange for recent Node.js
+process.EventEmitter = require('events').EventEmitter;
+
 var stackexchange = require('stackexchange');
 var context = new stackexchange();
 

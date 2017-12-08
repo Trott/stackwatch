@@ -18,17 +18,14 @@ var noop = function () {};
 describe('exports', function () {
     it('should expose check()', function (done) {
         expect(stackwatch.check).to.be.a.function();
-        done();
     });
 
     it('should expose start()', function (done) {
         expect(stackwatch.start).to.be.a.function();
-        done();
     });
 
     it('should expose stop()', function (done) {
         expect(stackwatch.stop).to.be.a.function();
-        done();
     });
 });
 
@@ -38,7 +35,6 @@ describe('check()', function () {
             reset();
             reset = null;
         }
-        done();
     });
 
     it('should run a callback', function (done) {
@@ -55,7 +51,6 @@ describe('check()', function () {
         var verify = function (err, data) {
             expect(err).to.be.null();
             expect(data).to.be.an.object();
-            done();
         };
         stackwatch.check({}, verify);
     });
@@ -65,7 +60,6 @@ describe('check()', function () {
             questions: {
                 questions: function (filter) {
                     expect(filter.tagged).to.equal('html5');
-                    done();
                 }
             }
         });
@@ -80,7 +74,6 @@ describe('start()', function () {
             reset();
             reset = null;
         }
-        done();
     });
 
     it('should return an object', function (done) {
@@ -93,7 +86,6 @@ describe('start()', function () {
         var timer = stackwatch.start({}, function () {});
         expect(timer).to.be.an.object();
         stackwatch.stop(timer);
-        done();
     });
 
     it('should not permit wait to be set under 60', function (done) {
@@ -109,7 +101,6 @@ describe('start()', function () {
             },
             setInterval: function (func, delay) {
                 expect(delay).to.equal(60000);
-                done();
             }
         });
 
@@ -129,7 +120,6 @@ describe('start()', function () {
             },
             setInterval: function (func, delay) {
                 expect(delay).to.equal(60000);
-                done();
             }
         });
 
@@ -149,7 +139,6 @@ describe('start()', function () {
             },
             setInterval: function (func, delay) {
                 expect(delay).to.equal(120000);
-                done();
             }
         });
 
@@ -160,6 +149,5 @@ describe('start()', function () {
 describe('stop()', function () {
     it('should be an alias for clearInterval', function (done) {
         expect(stackwatch.stop === clearInterval).to.be.true();
-        done();
     });
 });
