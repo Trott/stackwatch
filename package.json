@@ -30,6 +30,7 @@
     "@hapi/code": "^8.0.1",
     "@hapi/lab": "^22.0.5",
     "rewire": "^5.0.0",
+    "semantic-release": "^17.2.1",
     "standard": "^14.3.4"
   }
 }
