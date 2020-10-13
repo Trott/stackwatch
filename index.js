@@ -1,35 +1,32 @@
-'use strict';
+'use strict'
 
-// needed to fix devnull in stackexchange for recent Node.js
-process.EventEmitter = require('events').EventEmitter;
+var Stackexchange = require('stackexchange')
+var context = new Stackexchange()
 
-var stackexchange = require('stackexchange');
-var context = new stackexchange();
+var stackwatch = {}
 
-var stackwatch = {};
-
-stackwatch.check = function(options, callback) {
+stackwatch.check = function (options, callback) {
   var filter = {
     tagged: 'node.js',
     sort: 'creation',
     order: 'desc'
-  };
+  }
 
   if (options.tag) {
-    filter.tagged = options.tag;
+    filter.tagged = options.tag
   }
 
-  context.questions.questions(filter, callback);
-};
+  context.questions.questions(filter, callback)
+}
 
-stackwatch.start = function(options, callback) {
-  var wait = parseInt(options.wait, 10);
+stackwatch.start = function (options, callback) {
+  var wait = parseInt(options.wait, 10)
   if (isNaN(wait) || wait < 60) {
-  	wait = 60;
+    wait = 60
   }
-  return setInterval(stackwatch.check, 1000 * wait, options, callback);
-};
+  return setInterval(stackwatch.check, 1000 * wait, options, callback)
+}
 
-stackwatch.stop = clearInterval;
+stackwatch.stop = clearInterval
 
-module.exports = stackwatch;
+module.exports = stackwatch
