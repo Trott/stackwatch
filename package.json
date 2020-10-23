@@ -27,8 +27,8 @@
     "stackexchange": "^1.2.0"
   },
   "devDependencies": {
-    "@hapi/code": "^8.0.1",
-    "@hapi/lab": "^22.0.5",
+    "@hapi/code": "^8.0.2",
+    "@hapi/lab": "^24.1.0",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/git": "^9.0.0",
     "rewire": "^5.0.0",
