@@ -1,19 +1,19 @@
-var Code = require('@hapi/code')
+const Code = require('@hapi/code')
 
-var Lab = require('@hapi/lab')
-var lab = exports.lab = Lab.script()
+const Lab = require('@hapi/lab')
+const lab = exports.lab = Lab.script()
 
-var expect = Code.expect
-var describe = lab.experiment
-var it = lab.test
-var beforeEach = lab.beforeEach
+const expect = Code.expect
+const describe = lab.experiment
+const it = lab.test
+const beforeEach = lab.beforeEach
 
-var rewire = require('rewire')
-var argv = rewire('../../../lib/cli/argv')
+const rewire = require('rewire')
+const argv = rewire('../../../lib/cli/argv')
 
 describe('argv', function () {
   describe('help', function () {
-    var checkForUsage = function (txt) {
+    const checkForUsage = function (txt) {
       expect(txt.indexOf('Usage:')).to.equal(0)
     }
 
@@ -27,7 +27,7 @@ describe('argv', function () {
 
     it('should print a usage message with lines of 80 chars or less', function (done) {
       argv({ _: [], h: true }, function (txt) {
-        var lines = txt.split('\n')
+        const lines = txt.split('\n')
         lines.forEach(function (value) {
           expect(value.length).to.be.below(81)
         })
@@ -36,7 +36,7 @@ describe('argv', function () {
   })
 
   describe('version', function () {
-    var checkForVersion = function (txt) {
+    const checkForVersion = function (txt) {
       expect(txt.search(/^\d+\.\d+\.\d+/)).to.equal(0)
     }
 
@@ -50,8 +50,8 @@ describe('argv', function () {
   })
 
   describe('stackwatch', function () {
-    var noop = function () {}
-    var reset
+    const noop = function () {}
+    let reset
 
     beforeEach(function (done) {
       if (reset) {
@@ -60,14 +60,14 @@ describe('argv', function () {
       }
     })
 
-    var checkForError = function (txt) {
+    const checkForError = function (txt) {
       expect(txt).to.equal('Error: data is not valid')
     }
 
     it('should call check()', function (done) {
-      var checkCalled = false
+      let checkCalled = false
 
-      var stackwatchTestDouble = {
+      const stackwatchTestDouble = {
         check: function () {
           checkCalled = true
         }
@@ -78,7 +78,7 @@ describe('argv', function () {
     })
 
     it('should print error message if error is received by callback from check()', function (done) {
-      var stackwatchTestDouble = {
+      const stackwatchTestDouble = {
         check: function (options, callback) {
           return callback(new Error('This is a sample error message.'))
         }
@@ -92,7 +92,7 @@ describe('argv', function () {
     })
 
     it('should print error message if error is received by callback from start()', function (done) {
-      var stackwatchTestDouble = {
+      const stackwatchTestDouble = {
         check: function (options, callback) {
           return callback(null, { items: [{ creation_date: 1431712403, link: 'http://example.com/' }] })
         },
@@ -102,7 +102,7 @@ describe('argv', function () {
         stop: clearInterval
       }
 
-      var stdoutTestDouble = function (txt) {
+      const stdoutTestDouble = function (txt) {
         if (txt !== 'stackwatch is running...') {
           expect(txt).to.equal('Error: This is a sample error message.')
         }
@@ -112,7 +112,7 @@ describe('argv', function () {
     })
 
     it('should print error message if error_message included in otherwise invalid data object from check()', function (done) {
-      var stackwatchTestDouble = {
+      const stackwatchTestDouble = {
         check: function (options, callback) {
           return callback(null, { error_message: 'This is another sample error message.' })
         }
@@ -126,7 +126,7 @@ describe('argv', function () {
     })
 
     it('should print error message if error_message included in otherwise invalid data object from start()', function (done) {
-      var stackwatchTestDouble = {
+      const stackwatchTestDouble = {
         check: function (options, callback) {
           return callback(null, { items: [{ creation_date: 1431712403, link: 'http://example.com/' }] })
         },
@@ -136,7 +136,7 @@ describe('argv', function () {
         stop: clearInterval
       }
 
-      var stdoutTestDouble = function (txt) {
+      const stdoutTestDouble = function (txt) {
         if (txt !== 'stackwatch is running...') {
           expect(txt).to.equal('Error: This is yet another sample error message.')
         }
@@ -146,7 +146,7 @@ describe('argv', function () {
     })
 
     it('should print error message if no data from check()', function (done) {
-      var stackwatchTestDouble = {
+      const stackwatchTestDouble = {
         check: function (options, callback) {
           return callback()
         }
@@ -155,7 +155,7 @@ describe('argv', function () {
     })
 
     it('should print error message if no data from start()', function (done) {
-      var stackwatchTestDouble = {
+      const stackwatchTestDouble = {
         check: function (options, callback) {
           return callback(null, { items: [{ creation_date: 1431712403, link: 'http://example.com/' }] })
         },
@@ -165,7 +165,7 @@ describe('argv', function () {
         stop: clearInterval
       }
 
-      var stdoutTestDouble = function (txt) {
+      const stdoutTestDouble = function (txt) {
         if (txt !== 'stackwatch is running...') {
           checkForError(txt)
         }
@@ -175,7 +175,7 @@ describe('argv', function () {
     })
 
     it('should print error message if empty data object from check()', function (done) {
-      var stackwatchTestDouble = {
+      const stackwatchTestDouble = {
         check: function (options, callback) {
           return callback(null, {})
         }
@@ -184,7 +184,7 @@ describe('argv', function () {
     })
 
     it('should print error message if empty data object from start()', function (done) {
-      var stackwatchTestDouble = {
+      const stackwatchTestDouble = {
         check: function (options, callback) {
           return callback(null, { items: [{ creation_date: 1431712403, link: 'http://example.com/' }] })
         },
@@ -194,7 +194,7 @@ describe('argv', function () {
         stop: clearInterval
       }
 
-      var stdoutTestDouble = function (txt) {
+      const stdoutTestDouble = function (txt) {
         if (txt !== 'stackwatch is running...') {
           checkForError(txt)
         }
@@ -204,7 +204,7 @@ describe('argv', function () {
     })
 
     it('should print error message if data.items is empty', function (done) {
-      var stackwatchTestDouble = {
+      const stackwatchTestDouble = {
         check: function (options, callback) {
           return callback(null, { items: [] })
         }
@@ -213,7 +213,7 @@ describe('argv', function () {
     })
 
     it('should print error message if no creation_date', function (done) {
-      var stackwatchTestDouble = {
+      const stackwatchTestDouble = {
         check: function (options, callback) {
           return callback(null, { items: [{ link: 'https://example.com/' }] })
         }
@@ -222,7 +222,7 @@ describe('argv', function () {
     })
 
     it('should print error message if no link', function (done) {
-      var stackwatchTestDouble = {
+      const stackwatchTestDouble = {
         check: function (options, callback) {
           return callback(null, { items: [{ creation_date: 1431712403 }] })
         }
@@ -230,12 +230,12 @@ describe('argv', function () {
       argv({ _: [] }, checkForError, stackwatchTestDouble)
     })
 
-    it('should call opn() if newer creation_date is present', function (done) {
-      reset = argv.__set__('opn', function (url) {
+    it('should call open() if newer creation_date is present', function (done) {
+      reset = argv.__set__('open', async function (url) {
         expect(url).to.equal('https://www.example.com/grumbles')
       })
 
-      var stackwatchTestDouble = {
+      const stackwatchTestDouble = {
         check: function (options, callback) {
           return callback(null, { items: [{ creation_date: 1431712403, link: 'https://www.example.com/fhqwhgads' }] })
         },
@@ -251,12 +251,12 @@ describe('argv', function () {
       argv({ _: [] }, noop, stackwatchTestDouble)
     })
 
-    it('should call opn() on newer creation_date even if previous creation_date is no longer present', function (done) {
-      reset = argv.__set__('opn', function (url) {
+    it('should call open() on newer creation_date even if previous creation_date is no longer present', function (done) {
+      reset = argv.__set__('open', async function (url) {
         expect(url).to.equal('https://www.example.com/grumbles')
       })
 
-      var stackwatchTestDouble = {
+      const stackwatchTestDouble = {
         check: function (options, callback) {
           return callback(null, { items: [{ creation_date: 1431712403, link: 'https://www.example.com/fhqwhgads' }] })
         },
@@ -271,13 +271,13 @@ describe('argv', function () {
       argv({ _: [] }, noop, stackwatchTestDouble)
     })
 
-    it('should not call opn() on older creation_date if previous creation_date is no longer present', function (done) {
-      var callCount = 0
-      reset = argv.__set__('opn', function () {
+    it('should not call open() on older creation_date if previous creation_date is no longer present', function (done) {
+      let callCount = 0
+      reset = argv.__set__('open', function () {
         callCount = callCount + 1
       })
 
-      var stackwatchTestDouble = {
+      const stackwatchTestDouble = {
         check: function (options, callback) {
           return callback(null, {
             items: [
@@ -300,7 +300,7 @@ describe('argv', function () {
     })
 
     it('should search for tag provided by --tag command line option', function (done) {
-      var stackwatchTestDouble = {
+      const stackwatchTestDouble = {
         check: function (options) {
           expect(options.tag).to.equal('html5')
         }
@@ -310,7 +310,7 @@ describe('argv', function () {
     })
 
     it('should pass wait option to stackwatch.check()', function (done) {
-      var stackwatchTestDouble = {
+      const stackwatchTestDouble = {
         check: function (options) {
           expect(options.wait).to.equal('120')
         }
