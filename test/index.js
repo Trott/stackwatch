@@ -1,19 +1,19 @@
-var Code = require('@hapi/code')
+const Code = require('@hapi/code')
 
-var Lab = require('@hapi/lab')
-var lab = exports.lab = Lab.script()
+const Lab = require('@hapi/lab')
+const lab = exports.lab = Lab.script()
 
-var expect = Code.expect
-var describe = lab.experiment
-var it = lab.test
-var afterEach = lab.afterEach
+const expect = Code.expect
+const describe = lab.experiment
+const it = lab.test
+const afterEach = lab.afterEach
 
-var rewire = require('rewire')
-var stackwatch = rewire('../index.js')
+const rewire = require('rewire')
+const stackwatch = rewire('../index.js')
 
-var reset
+let reset
 
-var noop = function () {}
+const noop = function () {}
 
 describe('exports', function () {
   it('should expose check()', function (done) {
@@ -48,7 +48,7 @@ describe('check()', function () {
       }
     })
 
-    var verify = function (err, data) {
+    const verify = function (err, data) {
       expect(err).to.be.null()
       expect(data).to.be.an.object()
     }
@@ -83,7 +83,7 @@ describe('start()', function () {
       }
     })
 
-    var timer = stackwatch.start({}, function () {})
+    const timer = stackwatch.start({}, function () {})
     expect(timer).to.be.an.object()
     stackwatch.stop(timer)
   })

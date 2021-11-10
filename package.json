@@ -23,17 +23,17 @@
   "homepage": "https://github.com/Trott/stackwatch#readme",
   "dependencies": {
     "minimist": "^1.2.5",
-    "opn": "^1.0.2",
+    "open": "^8.4.0",
     "stackexchange": "^1.2.0"
   },
   "devDependencies": {
-    "@hapi/code": "^8.0.2",
-    "@hapi/lab": "^24.2.1",
-    "@semantic-release/changelog": "^5.0.1",
-    "@semantic-release/git": "^9.0.0",
+    "@hapi/code": "^8.0.4",
+    "@hapi/lab": "^24.4.0",
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/git": "^10.0.1",
     "rewire": "^5.0.0",
-    "semantic-release": "^17.4.4",
-    "standard": "^14.3.4"
+    "semantic-release": "^18.0.0",
+    "standard": "^16.0.4"
   },
   "release": {
     "branches": [
