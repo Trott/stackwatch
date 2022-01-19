@@ -1,3 +1,10 @@
+## [2.0.6](https://github.com/Trott/stackwatch/compare/v2.0.5...v2.0.6) (2022-01-19)
+
+
+### Bug Fixes
+
+* resolve deprecation warning while using stackwatch ([#43](https://github.com/Trott/stackwatch/issues/43)) ([ceb1de0](https://github.com/Trott/stackwatch/commit/ceb1de0907d940e740a87e34ec0979dd99b760c7))
+
 # 2.0.4
 
 - Update stackexchange dependency to address security warnings.
