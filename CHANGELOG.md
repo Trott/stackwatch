@@ -1,3 +1,10 @@
+## [2.0.7](https://github.com/Trott/stackwatch/compare/v2.0.6...v2.0.7) (2022-08-05)
+
+
+### Bug Fixes
+
+* update node-fetch 3.2.3 to 3.2.10 ([#50](https://github.com/Trott/stackwatch/issues/50)) ([14f8d56](https://github.com/Trott/stackwatch/commit/14f8d56587e948c8a39348ad71abf14fbb9bc4e1))
+
 ## [2.0.6](https://github.com/Trott/stackwatch/compare/v2.0.5...v2.0.6) (2022-01-19)
 
 
