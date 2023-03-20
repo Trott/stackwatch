@@ -23,7 +23,7 @@
   "homepage": "https://github.com/Trott/stackwatch#readme",
   "dependencies": {
     "minimist": "^1.2.5",
-    "open": "^8.4.0",
+    "open": "^9.0.0",
     "stackexchange": "^2.0.0"
   },
   "devDependencies": {
