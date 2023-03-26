@@ -1,3 +1,15 @@
+# [3.0.0](https://github.com/Trott/stackwatch/compare/v2.0.7...v3.0.0) (2023-03-26)
+
+
+### chore
+
+* update open to 9.x ([#65](https://github.com/Trott/stackwatch/issues/65)) ([bc7d7ed](https://github.com/Trott/stackwatch/commit/bc7d7ed3e3ffed6b0306bd5d0a4b751a49e51844))
+
+
+### BREAKING CHANGES
+
+* Drop support for Node.js 12.x
+
 ## [2.0.7](https://github.com/Trott/stackwatch/compare/v2.0.6...v2.0.7) (2022-08-05)
 
 
