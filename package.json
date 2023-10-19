@@ -31,8 +31,8 @@
     "@hapi/lab": "^25.0.1",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
-    "rewire": "^6.0.0",
-    "semantic-release": "^21.0.1",
+    "rewire": "^7.0.0",
+    "semantic-release": "^22.0.5",
     "standard": "^17.0.0"
   },
   "release": {
