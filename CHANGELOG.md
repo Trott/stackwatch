@@ -1,3 +1,15 @@
+# [4.0.0](https://github.com/Trott/stackwatch/compare/v3.0.0...v4.0.0) (2023-10-19)
+
+
+### chore
+
+* update test matrix ([#77](https://github.com/Trott/stackwatch/issues/77)) ([3627e3f](https://github.com/Trott/stackwatch/commit/3627e3f9abe38a61ef781e82c04a1c50216018af))
+
+
+### BREAKING CHANGES
+
+* drop support for Node.js older than 18.x
+
 # [3.0.0](https://github.com/Trott/stackwatch/compare/v2.0.7...v3.0.0) (2023-03-26)
 
 
